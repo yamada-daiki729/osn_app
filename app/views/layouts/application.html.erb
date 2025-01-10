@@ -10,21 +10,33 @@
 
     <%= yield :head %>
 
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
-
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
 
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
+    <%# Alpine.js CDN %>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
     <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <main class="container mx-auto mt-28 px-5 flex">
-      <%= yield %>
-    </main>
+  <body class="antialiased bg-gray-100">
+    <div class="flex relative" x-data="{navOpen: false}">
+      <%# サイドバー %>
+      <%= render 'shared/sidebar' %>
+
+      <%# メインコンテンツ %>
+      <main class="flex-1 h-screen overflow-y-scroll overflow-x-hidden">
+        <%# モバイルヘッダー %>
+        <%= render 'shared/mobile_header' %>
+
+        <%# コンテンツエリア %>
+        <section class="max-w-7xl mx-auto py-4 px-5">
+          <%= yield %>
+        </section>
+      </main>
+    </div>
   </body>
 </html>
