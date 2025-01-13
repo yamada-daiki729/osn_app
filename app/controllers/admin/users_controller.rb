@@ -23,6 +23,28 @@ class Admin::UsersController < Admin::ApplicationController
     @user = User.find(params[:id])
   end
 
+  def edit
+    @user = User.find(params[:id])
+    if current_user.id == @user.id
+      redirect_to admin_users_path, alert: "自分自身の編集はできません"
+    end
+  end
+
+  def update
+    @user = User.find(params[:id])
+    update_params = user_edit_params.to_h
+    if update_params[:password].blank?
+      update_params.delete(:password)
+      update_params.delete(:password_confirmation)
+    end
+
+    if @user.update(update_params)
+      redirect_to admin_users_path, notice: "ユーザーを更新しました"
+    else
+      redirect_to edit_admin_user_path, alert: "ユーザーの更新に失敗しました"
+    end
+  end
+
   def destroy
 
     if current_user.id == params[:id].to_i
@@ -57,5 +79,9 @@ class Admin::UsersController < Admin::ApplicationController
     user.password = random_first_password
     user.password_confirmation = random_first_password
     user.first_login_password = random_first_password
+  end
+
+  def user_edit_params
+    params.require(:user).permit(:name, :admin_type, :login_id, :password, :password_confirmation)
   end
 end
