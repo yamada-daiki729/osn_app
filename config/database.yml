@@ -20,6 +20,8 @@ test:
   password: password
 
 production:
-  primary: &primary_production
-    <<: *default
-    url: <%= ENV['DATABASE_URL'] %>
+  <<: *default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  url: <%= ENV['DATABASE_URL'] %>
