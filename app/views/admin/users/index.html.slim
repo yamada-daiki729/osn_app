@@ -1,0 +1,67 @@
+/ app/views/admin/users/index.html.slim
+.container.mx-auto.px-4.py-8
+  .bg-white.rounded-lg.shadow-lg.overflow-hidden
+    .px-4.sm:px-6.py-4.border-b.border-gray-200
+      h1.text-xl.sm:text-2xl.font-bold.text-gray-800
+        | ユーザー管理
+      .mt-4.flex.justify-end
+        = link_to new_admin_user_path, class: "bg-sky-500 hover:bg-sky-600 text-white px-3 sm:px-4 py-2 rounded-md flex items-center space-x-2 text-sm sm:text-base" do
+          svg.w-4.sm:w-5.h-4.sm:h-5 fill="none" stroke="currentColor" viewBox="0 0 24 24"
+            path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"
+          span
+            | ユーザーを追加
+
+    / PCとタブレット用のテーブル表示
+    .hidden.sm:block.overflow-x-auto
+      table.min-w-full.divide-y.divide-gray-200
+        thead.bg-gray-50
+          tr
+            th.px-6.py-3.text-left.text-xs.font-medium.text-gray-500.uppercase.tracking-wider
+              | なまえ
+            th.px-6.py-3.text-left.text-xs.font-medium.text-gray-500.uppercase.tracking-wider
+              | ログインID
+            th.px-6.py-3.text-left.text-xs.font-medium.text-gray-500.uppercase.tracking-wider
+              | 権限
+            th.px-6.py-3.text-left.text-xs.font-medium.text-gray-500.uppercase.tracking-wider
+              | 作成日
+            th.px-6.py-3.text-left.text-xs.font-medium.text-gray-500.uppercase.tracking-wider
+              | 操作
+
+        tbody.bg-white.divide-y.divide-gray-200
+          - @users.each do |user|
+            tr.hover:bg-gray-50
+              td.px-6.py-4.whitespace-nowrap
+                .text-sm.text-gray-900= user.name
+              td.px-6.py-4.whitespace-nowrap
+                .text-sm.text-gray-900= user.login_id
+              td.px-6.py-4.whitespace-nowrap
+                span.px-2.inline-flex.text-xs.leading-5.font-semibold.rounded-full class="#{user.admin_type == 'admin' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}"
+                  = user.admin_type
+              td.px-6.py-4.whitespace-nowrap.text-sm.text-gray-500
+                = l user.created_at, format: :long
+              td.px-6.py-4.whitespace-nowrap.text-sm.font-medium
+                .flex.space-x-3
+                  - if current_user != user
+                    = link_to edit_admin_user_path(user), class: "text-sky-500 hover:text-sky-600" do
+                      | 編集
+                  = link_to admin_user_path(user), class: "text-gray-600 hover:text-gray-800" do
+                    | 詳細
+
+    / モバイル用のカード表示
+    .sm:hidden.divide-y.divide-gray-200
+      - @users.each do |user|
+        .p-4.space-y-3
+          .flex.justify-between.items-start
+            div
+              .text-sm.font-medium.text-gray-900= user.name
+              .text-xs.text-gray-500= user.login_id
+            span.px-2.py-1.text-xs.font-semibold.rounded-full class="#{user.admin_type == 'admin' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}"
+              = user.admin_type
+          .text-xs.text-gray-500
+            = l user.created_at, format: :long
+          .flex.space-x-3.mt-2
+            - if current_user != user
+              = link_to edit_admin_user_path(user), class: "text-sky-500 hover:text-sky-600 text-sm" do
+                | 編集
+            = link_to admin_user_path(user), class: "text-gray-600 hover:text-gray-800 text-sm" do
+              | 詳細

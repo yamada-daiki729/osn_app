@@ -22,3 +22,11 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+
+# use ridgepole
+
+command
+
+```
+bundle exec ridgepole --config ./config/database.yml --file ./Schemafile --apply
+```

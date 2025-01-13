@@ -5,6 +5,15 @@
       <%= render 'shared/sidebar/logo' %>
       <%= render 'shared/sidebar/search' %>
       <div class="py-4 text-gray-400 space-y-1">
+        <%# users %>
+        <% if current_user && ( current_user.admin? || current_user.super_admin? ) %>
+          <%= link_to admin_users_path, class: "block py-2.5 px-4 flex items-center space-x-2 #{current_page?("") ? 'bg-gray-800 text-white' : 'text-gray-400'} hover:bg-gray-800 hover:text-white rounded" do %>
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+            </svg>
+            <span>ユーザー管理</span>
+          <% end %>
+        <% end %>
         <%# dashboard %>
         <%= link_to '#', class: "block py-2.5 px-4 flex items-center space-x-2 #{current_page?(dashboard_path) ? 'bg-gray-800 text-white' : 'text-gray-400'} hover:bg-gray-800 hover:text-white rounded" do %>
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -36,6 +45,10 @@
         </div>
       </div>
     </div>
-    <%= render 'shared/sidebar/profile' %>
+    <% if current_user %>
+      <%= render 'shared/sidebar/profile' %>
+    <% else %>
+      <%= link_to 'ログイン', new_user_session_path, class: "block py-2.5 px-4 text-gray-400 hover:bg-gray-800 hover:text-white rounded" %>
+    <% end %>
   </div>
 </nav>
