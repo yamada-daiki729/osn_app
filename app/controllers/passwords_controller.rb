@@ -14,7 +14,7 @@ class PasswordsController < ApplicationController
       bypass_sign_in(current_user)
       redirect_to root_path, notice: 'パスワードを変更しました'
     else
-      render :first_change
+      render :first_change, status: :unprocessable_entity
     end
   end
 

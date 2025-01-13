@@ -41,7 +41,7 @@ class Admin::UsersController < Admin::ApplicationController
     if @user.update(update_params)
       redirect_to admin_users_path, notice: "ユーザーを更新しました"
     else
-      redirect_to edit_admin_user_path, alert: "ユーザーの更新に失敗しました"
+      render :edit, status: :unprocessable_entity
     end
   end
 
