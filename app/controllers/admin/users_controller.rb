@@ -19,6 +19,30 @@ class Admin::UsersController < Admin::ApplicationController
     end
   end
 
+  def show
+    @user = User.find(params[:id])
+  end
+
+  def destroy
+
+    if current_user.id == params[:id].to_i
+      redirect_to admin_users_path, alert: "自分自身を削除することはできません"
+      return
+    end
+    user = User.find(params[:id])
+
+    if user.admin_type != "general" && current_user.admin_type != "super_admin"
+      redirect_to admin_users_path, alert: "管理者削除権限がありません"
+      return
+    end
+
+    if user.admin_type != "general" && User.where.not(admin_type: "general").count == 1
+      redirect_to admin_users_path, alert: "最後の管理者ユーザーを削除することはできません"
+      return
+    end
+    user.destroy
+    redirect_to admin_users_path, notice: "ユーザーを削除しました"
+  end
 
   private
 
