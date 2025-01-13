@@ -30,3 +30,17 @@ command
 ```
 bundle exec ridgepole --config ./config/database.yml --file ./Schemafile --apply
 ```
+
+heroku command
+
+```
+heroku run "bundle exec ridgepole -c config/database.yml -E production -f ./Schemafile --apply"
+```
+
+```
+ git push heroku main
+```
+
+```
+heroku run rails console
+```
