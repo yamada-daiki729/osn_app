@@ -3,6 +3,6 @@
   .text-gray-200.border-gray-800.rounded.flex.items-center.justify-between.p-2
     .flex.items-center.space-x-2
       p.font-semibold
-        = current_user.login_id
+        = current_user.name
 
     = button_to 'logout', destroy_user_session_path, method: :delete
