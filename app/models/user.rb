@@ -4,7 +4,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :authentication_keys => [:login_id]
 
-  enum admin_type: { general: 0, admin: 1, super_admin: 2 }
+  enum :admin_type, { general: 0, admin: 1, super_admin: 2 }
 
   # ユーザー名で検索
   def self.find_first_by_auth_conditions(warden_conditions)
