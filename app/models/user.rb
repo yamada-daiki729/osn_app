@@ -6,8 +6,6 @@ class User < ApplicationRecord
 
   enum :admin_type, { general: 0, admin: 1, super_admin: 2 }
 
-  validates :password, presence: true, length: { minimum: 6 }
-
   validate :not_login_id_same_as_password
   validate :not_password_is_password
 
